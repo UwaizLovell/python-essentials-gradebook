@@ -14,8 +14,15 @@ def read_valid_mark():
 
 # Add a new student to the gradebook
 def add_student(gradebook):
-    pass
+    # Ask the user to enter the student's name
+    name = input("Enter student name: ")
 
+    # See if the student is already in the gradebook
+    if name in gradebook:
+        print("Student already exists.")
+    else:
+        gradebook[name] = []
+        print(name, "was added successfully.")
 
 # Add a mark to an existing student
 def add_mark(gradebook):
