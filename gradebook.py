@@ -56,8 +56,23 @@ while True:
 
     choice = input("Choose an option: ")
 
-    if choice == "7":
+    # Run the correct function depending on the user's choice
+    if choice == "1":
+        add_student(gradebook)
+    elif choice == "2":
+        add_mark(gradebook)
+    elif choice == "3":
+        view_all(gradebook)
+    elif choice == "4":
+        student_summary(gradebook)
+    elif choice == "5":
+        class_statistics(gradebook)
+    elif choice == "6":
+        remove_student(gradebook)
+    elif choice == "7":
         print("Goodbye!")
         break
+    else:
+        print("Invalid option. Please choose from 1 to 7.")
 
 
