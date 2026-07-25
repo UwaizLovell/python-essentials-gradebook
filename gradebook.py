@@ -10,7 +10,19 @@ def highest_and_lowest(marks):
 
 # Ask for a mark and make sure it is valid
 def read_valid_mark():
-    pass
+
+    # Exception handling to verify the the mark is valid
+    while True:
+       try:
+          mark = int(input("Enter mark: "))
+       except ValueError:
+          print("Please enter a number.")
+       else:
+           # See if the mark is in the valid range of 0 - 100
+           if mark >= 0 and mark <= 100:
+               return mark
+           else:
+               print("Enter valid mark between 0 and 100.")      
 
 # Add a new student to the gradebook
 def add_student(gradebook):
@@ -26,12 +38,32 @@ def add_student(gradebook):
 
 # Add a mark to an existing student
 def add_mark(gradebook):
-    pass
 
+    # Ask which student the mark belongs to 
+    name = input("Enter student name: ")
+
+    # See if the student exists before entering the mark
+    if name not in gradebook:
+        print("Student not found.")
+    else:
+        # Recieve a valid mark from the user
+        mark = read_valid_mark()
+        
+        # Enter the mark to the student's list 
+        gradebook[name].append(mark) 
+
+        # Confirm the mark was added into the list 
+        print("Mark added successfully.")
 
 # Display all students and their marks
 def view_all(gradebook):
-    pass
+    # See if their are or aren't students in the gradebook 
+    if len(gradebook) == 0: 
+        print("Gradebook empty, no students entered.")
+    else:
+        # Go through gradebook and display their name and marks
+        for name in gradebook:
+            print(name, gradebook[name])
 
 # Show a summary for one student
 def student_summary(gradebook):
