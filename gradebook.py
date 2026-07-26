@@ -126,7 +126,19 @@ def class_statistics(gradebook):
 
 # Remove a student from the gradebook
 def remove_student(gradebook):
-    pass
+    
+    # Ask the user which student you want to remove 
+    name = input("Enter student name: ")
+    
+    # See if the student is in the gradebook
+    if name not in gradebook: 
+        print("No student found with that name.")
+    else:
+        # Remove the student from the gradebook 
+        del gradebook[name]
+
+        # Notify the user that the student was removed successfully
+        print(name, " was removed successfully.")
 
 # Create the gradebook that will store students and their marks
 gradebook = {}
