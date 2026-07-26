@@ -67,8 +67,31 @@ def view_all(gradebook):
 
 # Show a summary for one student
 def student_summary(gradebook):
-    pass
 
+    # Ask the user what student they want to show the summary for
+    name = input("Enter student name: ")
+
+    # See if the student is in the gradebook 
+    if name not in gradebook:
+        print("Student not found.")
+    elif len(gradebook[name]) == 0:
+        print("Marks are not recorded for this student.")
+    else:
+        marks = gradebook[name]
+
+        # To calculate the average of the student's marks
+        average = round(sum(marks) / len(marks),2)
+
+        # To find the highest and lowest marks the student has recieved 
+        highest = max(marks)
+        lowest = min(marks)
+
+        # To display the student summary 
+        print("Student:", name)
+        print("Marks:", marks)
+        print("Average:", average)
+        print("Highest:", highest)
+        print("Lowest:", lowest)
 
 # Show statistics for the whole class
 def class_statistics(gradebook):
