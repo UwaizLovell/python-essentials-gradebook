@@ -93,10 +93,36 @@ def student_summary(gradebook):
         print("Highest:", highest)
         print("Lowest:", lowest)
 
-# Show statistics for the whole class
+# Show the statistics for the whole class
 def class_statistics(gradebook):
-    pass
 
+    # See if there is or isn't any students in the gradebook
+    if len(gradebook) == 0:
+        print("No student found in the gradebook.")
+    else:
+        # To create an empty list to store all the marks of the students in class 
+        all_marks = []
+        
+        # Go through all the studnets in the gradebook 
+        for name in gradebook:
+            # Look through each mark that belongs to that student 
+            for mark in gradebook[name]:
+                all_marks.append(mark)
+        # To handle students with no marks, See if no marks were recorded
+        if len(all_marks) == 0:
+            print(" Marks have not been recorded yet.")
+        else:
+            # To calculate the average mark for the class 
+            class_average = round(sum(all_marks) / len(all_marks), 2)
+            
+            # Find the highest and lowest marks in the class 
+            highest = max(all_marks)
+            lowest = min(all_marks) 
+
+            # Display the class stats 
+            print("Class Average:", class_average)
+            print("Class Highest:", highest)
+            print("Class Lowest:", lowest)
 
 # Remove a student from the gradebook
 def remove_student(gradebook):
