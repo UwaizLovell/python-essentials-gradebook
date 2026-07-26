@@ -1,12 +1,22 @@
 # Calculate the average of a student's marks
 def calculate_average(marks):
-    pass
+    
+    # If there are no marks return none
+    if len(marks) == 0:
+       return None
 
+    # Calculate the average and return
+    return sum(marks) / len(marks)
 
 # Find the highest and lowest marks
 def highest_and_lowest(marks):
-    pass
 
+    # Return a none value if there are no marks
+    if len(marks) == 0:
+       return None, None
+    
+    # Return the highest and Lowest marks as a tuple
+    return max(marks), min(marks)
 
 # Ask for a mark and make sure it is valid
 def read_valid_mark():
@@ -14,7 +24,7 @@ def read_valid_mark():
     # Exception handling to verify the the mark is valid
     while True:
        try:
-          mark = int(input("Enter mark: "))
+          mark = float(input("Enter mark: "))
        except ValueError:
           print("Please enter a number.")
        else:
@@ -29,6 +39,10 @@ def add_student(gradebook):
     # Ask the user to enter the student's name
     name = input("Enter student name: ")
 
+    # See if the user enters a blank field
+    if name == "":
+        print("Student name cannot be blank.")
+        return 
     # See if the student is already in the gradebook
     if name in gradebook:
         print("Student already exists.")
@@ -61,9 +75,15 @@ def view_all(gradebook):
     if len(gradebook) == 0: 
         print("Gradebook empty, no students entered.")
     else:
-        # Go through gradebook and display their name and marks
+        # Go through gradebook and display their name, marks and average
         for name in gradebook:
-            print(name, gradebook[name])
+            marks = gradebook[name]
+            average = calculate_average(marks)
+
+            if average is None:
+                print(name, marks, "Average: n/a")
+            else:
+                print(name, marks, "Average:", round(average, 2))
 
 # Show a summary for one student
 def student_summary(gradebook):
@@ -80,16 +100,16 @@ def student_summary(gradebook):
         marks = gradebook[name]
 
         # To calculate the average of the student's marks
-        average = round(sum(marks) / len(marks),2)
+        average = calculate_average(marks)
 
         # To find the highest and lowest marks the student has recieved 
-        highest = max(marks)
-        lowest = min(marks)
+        highest, lowest = highest_and_lowest(marks)
 
         # To display the student summary 
         print("Student:", name)
         print("Marks:", marks)
-        print("Average:", average)
+        print("Number of marks:", len(marks))
+        print("Average:", round(average, 2))
         print("Highest:", highest)
         print("Lowest:", lowest)
 
@@ -100,14 +120,49 @@ def class_statistics(gradebook):
     if len(gradebook) == 0:
         print("No student found in the gradebook.")
     else:
+        # Display the total number of students
+        print("Total students:", len(gradebook))
+
         # To create an empty list to store all the marks of the students in class 
         all_marks = []
         
-        # Go through all the studnets in the gradebook 
+        # Create lists for passing, failing and students with no marks
+        passing = []
+        failing = []
+        no_marks = []
+        
+        # Go through all the students in the gradebook 
         for name in gradebook:
+
             # Look through each mark that belongs to that student 
             for mark in gradebook[name]:
                 all_marks.append(mark)
+ 
+            # See if the student has marks or not
+            if len(gradebook[name]) == 0:
+                no_marks.append(name)
+            else: 
+                # Calculate the students average 
+                average = calculate_average(gradebook[name])
+
+                # See if the student is passing or failing
+                if average >= 50:
+                    passing.append(name)
+                else:
+                    failing.append(name)
+
+        # Find the student with the highest average
+        top_student = None
+        top_average = None
+
+        for name in gradebook:
+            if len(gradebook[name]) > 0:
+                average = calculate_average(gradebook[name])
+
+                if top_average is None or average > top_average:
+                    top_student = name
+                    top_average = average
+
         # To handle students with no marks, See if no marks were recorded
         if len(all_marks) == 0:
             print(" Marks have not been recorded yet.")
@@ -123,6 +178,12 @@ def class_statistics(gradebook):
             print("Class Average:", class_average)
             print("Class Highest:", highest)
             print("Class Lowest:", lowest)
+            print("Top student:", top_student, "Average:", round(top_average, 2))
+     
+        # Display the student grouping of whether they are passing, failing or have no marks entered
+        print("Passing students:", passing)
+        print("Failing students:", failing)
+        print("Students with no marks:", no_marks)
 
 # Remove a student from the gradebook
 def remove_student(gradebook):
@@ -134,11 +195,15 @@ def remove_student(gradebook):
     if name not in gradebook: 
         print("No student found with that name.")
     else:
-        # Remove the student from the gradebook 
-        del gradebook[name]
+        # Ask the user to confirm before removing the student
+        confirm = input("Are you sure you want to remove this student? (y/n): ")
 
-        # Notify the user that the student was removed successfully
-        print(name, " was removed successfully.")
+        if confirm == "y":
+            # Remove the student from the gradebook
+            del gradebook[name]
+            print(name, "was removed successfully.")
+        else:
+            print("Removal cancelled.")
 
 # Create the gradebook that will store students and their marks
 gradebook = {}
